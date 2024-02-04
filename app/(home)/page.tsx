@@ -19,7 +19,7 @@ export default async function Home() {
 
       {/* Welcome message */}
       <div className="px-5 pt-5">
-        <h2 className="text-xl font-bold">Olá, Gabriela!</h2>
+        <h2 className="text-xl font-bold">Olá, John Doe!</h2>
         <p className="text-sm text-gray-500">
           <span className="capitalize">{format(new Date(), "EEEE", { locale: ptBR })}</span>
           {format(new Date(), "',' dd 'de' MMMM", { locale: ptBR })}
@@ -39,6 +39,15 @@ export default async function Home() {
 
       <div className="mt-6">
         <h2 className="px-5 mb-3 text-xs uppercase text-gray-400 font-bold">Recomendados</h2>
+        <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden p-5">
+          {barbershops.map((barbershop: any) => (
+            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-6 mb-[4.5rem]">
+        <h2 className="px-5 mb-3 text-xs uppercase text-gray-400 font-bold">Populares</h2>
         <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden p-5">
           {barbershops.map((barbershop: any) => (
             <BarbershopItem key={barbershop.id} barbershop={barbershop} />
