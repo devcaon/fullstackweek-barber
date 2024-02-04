@@ -10,7 +10,7 @@ const BookingItem = () => {
           <Badge className="bg-[#221c3d] text-primary hover:bg-[#221c3d] w-fit">
             Confirmado
           </Badge>
-          <h2 className="font-bold text-[16px]">Haircut</h2>
+          <h2 className="font-bold text-[16px]">Corte de Cabelo</h2>
           <div className="flex items-center gap-2">
             <Avatar className="h-7 w-7">
               <AvatarImage src="https://utfs.io/f/0ddfbd26-a424-43a0-aaf3-c3f1dc6be6d1-1kgxo7.png" alt="Avatar" />
@@ -20,7 +20,7 @@ const BookingItem = () => {
           </div>
         </div>
         <div className="flex flex-col items-center justify-center border-l border-solid border-secondary px-3">
-          <p className="text-sm">February</p>
+          <p className="text-sm">Fevereiro</p>
           <p className="text-2xl">03</p>
           <p className="text-sm">23:44</p>
         </div>

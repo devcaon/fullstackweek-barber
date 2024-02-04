@@ -43,7 +43,7 @@ async function seedDatabase() {
 
     // Endereços fictícios para as barbearias
     const addresses = [
-      "Rua da Barbearia, 123",
+      "Rua da Barbearia, 123 - São Paulo",
       "Avenida dos Cortes, 456",
       "Praça da Barba, 789",
       "Travessa da Navalha, 101",
