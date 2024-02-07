@@ -1,5 +1,5 @@
 import Header from "../_components/Header";
-import { format, Locale } from 'date-fns';
+import { format } from 'date-fns';
 import Search from "./_components/Search";
 import BookingItem from "../_components/Booking-item";
 import { db } from "../_lib/prisma";
