@@ -17,7 +17,7 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
   const router = useRouter()
 
   const handleBackClick = () => {
-    router.back();
+    router.replace("/");
   }
 
   return (
@@ -26,22 +26,16 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
         <Button size="icon" variant="outline" className="z-50 absolute top-4 left-4" onClick={handleBackClick}>
           <ChevronLeftIcon />
         </Button>
-
-
         <Sheet>
-
           <SheetTrigger asChild>
             <Button size="icon" variant="outline" className="z-50 absolute top-4 right-4">
               <MenuIcon />
             </Button>
           </SheetTrigger>
-
           <SheetContent className='p-0'>
             <SideMenu />
-          </SheetContent>
-          
+          </SheetContent>          
         </Sheet>
-
 
         <Image src={barbershop.imageUrl} fill alt={barbershop.name} style={{
           objectFit: 'cover',
