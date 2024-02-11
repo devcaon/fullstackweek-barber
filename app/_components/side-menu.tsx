@@ -36,7 +36,7 @@ const SideMenu = () => {
       ) : (
         <div className='flex flex-col px-5 py-6 gap-5'>
           <div className="flex items-center gap-3">
-            <CircleUserRoundIcon className="text-gray-700" size={40} />
+            <CircleUserRoundIcon size={40} />
             <h2 className='font-bold'>Olá, faça seu login!</h2>
           </div>
           <Button variant="secondary" className='w-full justify-start' onClick={handleLoginClick}>

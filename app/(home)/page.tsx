@@ -1,3 +1,4 @@
+
 import Header from "../_components/Header";
 import { format } from 'date-fns';
 import Search from "./_components/Search";
@@ -5,9 +6,11 @@ import BookingItem from "../_components/Booking-item";
 import { db } from "../_lib/prisma";
 import BarbershopItem from "./_components/Barbershop-item";
 import { ptBR } from 'date-fns/locale';
+import { useSession } from "next-auth/react";
 
 export default async function Home() {
 
+ 
   // call prisma and load barbershops
   const barbershops = await db.barbershop.findMany({})
 
