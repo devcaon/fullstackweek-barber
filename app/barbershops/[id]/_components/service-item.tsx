@@ -4,14 +4,15 @@ import { Button } from "@/app/_components/ui/button";
 import { Calendar } from "@/app/_components/ui/calendar";
 import { Card, CardContent } from "@/app/_components/ui/card";
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/app/_components/ui/sheet";
-import { Barbershop, Service } from "@prisma/client";
+import { Barbershop, Booking, Service } from "@prisma/client";
 import { ptBR } from "date-fns/locale";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { generateDayTimeList } from "../_helpers/hours";
 import { format, setHours, setMinutes } from "date-fns";
 import { saveBooking } from "../_actions/save-booking";
+import { getDayBookings } from "../_actions/get-day-bookings";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -24,13 +25,27 @@ interface ServiceItemProps {
 
 const ServiceItem = ({ service, isAuthenticated, barbershop }: ServiceItemProps) => {
 
-  const { data } = useSession()
-  const router = useRouter()
+  const { data } = useSession();
+  const router = useRouter();
 
   const [date, setDate] = useState<Date | undefined>(undefined);
-  const [hour, setHour] = useState<string | undefined>()
-  const [submitIsLoading, setSubmitIsLoading] = useState(false)
-  const [sheetIsOpen, setSheetIsOpen] = useState(false)
+  const [hour, setHour] = useState<string | undefined>();
+  const [submitIsLoading, setSubmitIsLoading] = useState(false);
+  const [sheetIsOpen, setSheetIsOpen] = useState(false);
+  const [dayBookings, setDayBookings] = useState<Booking[]>([])
+
+  useEffect(() => {
+    if(!date) return;
+    const refreshAvailableHours = async () => {
+      const _dayBookings = await getDayBookings(date);
+
+      setDayBookings(_dayBookings);
+    }
+
+    refreshAvailableHours();
+  }, [date]);
+
+  console.log('agendamentos',dayBookings);
 
   const handleDateClick = (date: Date | undefined) => {
     setDate(date)
@@ -89,8 +104,32 @@ const ServiceItem = ({ service, isAuthenticated, barbershop }: ServiceItemProps)
   }
 
   const timeList = useMemo(() => {
-    return date ? generateDayTimeList(date) : []
-  }, [date])
+
+    if(!date){
+      return []
+    }
+
+    return generateDayTimeList(date).filter((time) => {
+      // se houver alguma reserva em "dayBookings" com a hora e
+      // minutos igual a time, não incluir na lista
+      
+      const timeHour = Number(time.split(":")[0])
+      const timeMinutes = Number(time.split(":")[1])
+
+      const booking = dayBookings.find((booking) => {
+        const bookingHour = booking.date.getHours();
+        const bookingMinutes = booking.date.getMinutes();
+
+        return (bookingHour === timeHour) && (bookingMinutes === timeMinutes)
+      })
+
+      if(!booking) return true
+
+      return false
+
+    })
+
+  }, [date, dayBookings])
 
 
   return (
@@ -133,7 +172,7 @@ const ServiceItem = ({ service, isAuthenticated, barbershop }: ServiceItemProps)
               <Sheet open={sheetIsOpen} onOpenChange={setSheetIsOpen}>
                 <SheetTrigger asChild>
                   <Button variant="secondary" onClick={handleBookingClick}>
-                    Reservar
+                    Agendar
                   </Button>
                 </SheetTrigger>
                 <SheetContent className="p-0">
@@ -232,7 +271,7 @@ const ServiceItem = ({ service, isAuthenticated, barbershop }: ServiceItemProps)
                       disabled={(!hour || !date) || submitIsLoading}
                     >
                        {submitIsLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                        Confirmar reserva
+                        Confirmar Agendamento
                     </Button>
                   </SheetFooter>
                 </SheetContent>
