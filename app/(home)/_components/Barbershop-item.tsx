@@ -44,7 +44,7 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
             {barbershop.address}
           </p>
           <Button className="w-full mt-3" variant="secondary" onClick={handleBookingClick}>
-            Reservar
+            Agendar
           </Button>
         </div>
       </CardContent>

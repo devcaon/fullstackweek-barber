@@ -6,11 +6,14 @@ import BookingItem from "../_components/Booking-item";
 import { db } from "../_lib/prisma";
 import BarbershopItem from "./_components/Barbershop-item";
 import { ptBR } from 'date-fns/locale';
-import { useSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+
 
 export default async function Home() {
 
- 
+  const session = await getServerSession(authOptions)
+
   // call prisma and load barbershops
   const barbershops = await db.barbershop.findMany({})
 
@@ -22,9 +25,9 @@ export default async function Home() {
 
       {/* Welcome message */}
       <div className="px-5 pt-5">
-        <h2 className="text-xl font-bold">Olá, John Doe!</h2>
-        <p className="text-sm text-gray-500">
-          <span className="capitalize">{format(new Date(), "EEEE", { locale: ptBR })}</span>
+        <h2 className="text-xl font-bold">Olá, {session?.user?.name}</h2>
+        <p className="text-sm text-gray-500 mt-1">
+          <span className="capitalize ">{format(new Date(), "EEEE", { locale: ptBR })}</span>
           {format(new Date(), "',' dd 'de' MMMM", { locale: ptBR })}
         </p>
       </div>
@@ -35,10 +38,10 @@ export default async function Home() {
       </div>
 
       {/* Booking component */}
-      <div className="px-5 mt-6">
+      {/* <div className="px-5 mt-6">
         <h2 className="mb-3 text-xs uppercase text-gray-400 font-bold">Agendamentos</h2>
         <BookingItem />
-      </div>
+      </div> */}
 
       <div className="mt-6">
         <h2 className="px-5 mb-3 text-xs uppercase text-gray-400 font-bold">Recomendados</h2>
