@@ -6,11 +6,6 @@ import { format, isPast } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 interface BookingItemProps {
-  // booking: Prisma.BookingGetPayload<{
-  //   include: {
-  //     service: true;
-  //   }
-  // }>
   booking: Booking
 }
 
@@ -21,7 +16,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
   const isBookingFinished = isPast(booking.date)
 
   return (
-    <Card>
+    <Card className="min-w-full">
       <CardContent className="px-0 flex py-0">
         <div className="flex flex-col gap-2 py-5 flex-[3] pl-5">
           <Badge variant={

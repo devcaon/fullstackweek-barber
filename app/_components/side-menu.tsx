@@ -54,7 +54,6 @@ const SideMenu = () => {
           </Link>
         </Button>
         {data?.user && (
-
           <Button variant="outline" className='justify-start' asChild>
             <Link href='/bookings'>
               <CalendarDaysIcon size={18} className='mr-2' />
