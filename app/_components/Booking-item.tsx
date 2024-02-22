@@ -12,6 +12,17 @@ import { cancelBooking } from "../_actions/cancel-booking";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./ui/alert-dialog"
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -140,15 +151,33 @@ const BookingItem = ({ booking }: BookingItemProps) => {
             <SheetClose asChild>
               <Button variant="secondary" className="w-full">Voltar</Button>
             </SheetClose>
-            <Button 
-              disabled={isBookingFinished || isDeleteLoading} 
-              variant="destructive" 
-              className="w-full"
-              onClick={handleCancelClick}
-            >
-              {isDeleteLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin"/>}
-              Cancelar Agendamento
-            </Button>
+
+
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  disabled={isBookingFinished || isDeleteLoading}
+                  variant="destructive"
+                  className="w-full"
+                >
+                  {isDeleteLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Cancelar Agendamento
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="w-[90%]">
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Deseja mesmo cancelar agendamento?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                  Essa ação não pode ser desfeita. Isso excluirá permanentemente seu agendamento.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter className="flex flex-row items-center gap-3">
+                  <AlertDialogCancel className="w-full mt-0">Voltar</AlertDialogCancel>
+                  <AlertDialogAction disabled={isDeleteLoading}className="w-full" onClick={handleCancelClick}>Confirmar</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+
           </SheetFooter>
 
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarDaysIcon, CircleUserRoundIcon, HomeIcon, LogInIcon, LogOutIcon } from "lucide-react";
+import { CalendarDaysIcon, CircleUserRoundIcon, HomeIcon, LogInIcon, LogOutIcon, ScissorsIcon } from "lucide-react";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { SheetHeader, SheetTitle } from "./ui/sheet";
@@ -59,7 +59,15 @@ const SideMenu = () => {
               <CalendarDaysIcon size={18} className='mr-2' />
               Agendamentos
             </Link>
-          </Button>
+          </Button>          
+        )}
+        {data?.user && (
+          <Button variant="outline" className='justify-start' asChild>
+            <Link href='/bookings'>
+              <ScissorsIcon size={18} className='mr-2' />
+              Add Barbershop
+            </Link>
+          </Button>          
         )}
       </div>
     </>

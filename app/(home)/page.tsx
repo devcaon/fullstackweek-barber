@@ -1,4 +1,3 @@
-
 import Header from "../_components/Header";
 import { format } from 'date-fns';
 import Search from "./_components/Search";
@@ -15,6 +14,8 @@ export default async function Home() {
 
   const session = await getServerSession(authOptions);
 
+  const userName = session?.user?.name?.split(' ')
+
   const [barbershops, confirmedBookings] = await Promise.all([
     db.barbershop.findMany({}),
     session?.user ? db.booking.findMany({
@@ -29,8 +30,6 @@ export default async function Home() {
         barbershop: true
       }
     }) : Promise.resolve([])
-
-
   ])
 
   return (
@@ -48,7 +47,7 @@ export default async function Home() {
               <AvatarImage src={session?.user?.image ?? ''} alt="Avatar" />
               <AvatarFallback>AB</AvatarFallback>
             </Avatar>
-            <h2 className="text-xl font-bold">{session?.user?.name}</h2>
+            <h2 className="text-xl font-bold">{userName && userName[0]}</h2>
           </div>
           <p className="text-sm text-gray-500 mt-2">
             <span className="capitalize ">{format(new Date(), "EEEE", { locale: ptBR })}</span>
@@ -67,7 +66,7 @@ export default async function Home() {
         {confirmedBookings.length > 0 ?
           <h2 className="pl-5 mb-3 text-xs uppercase text-gray-400 font-bold">
             Agendamentos
-          </h2> : <p>Não há agendamentos realizados!</p>}
+          </h2> : <p className="pl-5 mb-3 text-gray-400">Você não tem agendamentos!</p>}
         <div className="px-5 mt-6 flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
           {confirmedBookings.map((booking: any) => (
             <BookingItem key={booking.id} booking={booking} />
