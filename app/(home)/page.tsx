@@ -6,8 +6,8 @@ import { db } from "../_lib/prisma";
 import BarbershopItem from "./_components/Barbershop-item";
 import { ptBR } from 'date-fns/locale';
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { Avatar, AvatarFallback, AvatarImage } from "../_components/ui/avatar";
+import { authOptions } from "../_lib/auth";
 
 
 export default async function Home() {
