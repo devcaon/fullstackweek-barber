@@ -14,8 +14,6 @@ export default async function Home() {
 
   const session = await getServerSession(authOptions);
 
-  const userName = session?.user?.name?.split(' ')
-
   const [barbershops, confirmedBookings] = await Promise.all([
     db.barbershop.findMany({}),
     session?.user ? db.booking.findMany({
@@ -41,19 +39,20 @@ export default async function Home() {
       {
         /* Welcome message */
         session?.user && (
-        <div className="px-5 pt-5">
-          <div className="flex gap-3">
-            <Avatar className="h-8 w-8">
-              <AvatarImage src={session?.user?.image ?? ''} alt="Avatar" />
-              <AvatarFallback>AB</AvatarFallback>
-            </Avatar>
-            <h2 className="text-xl font-bold">{userName && userName[0]}</h2>
+          <div className="px-5 pt-5">
+            <div className="flex gap-3">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src={session?.user?.image ?? ''} alt="Avatar" />
+                <AvatarFallback>AB</AvatarFallback>
+              </Avatar>
+              <h2 className="text-xl font-bold">{session?.user ? `Olá, ${session?.user?.name?.split(' ')[0]}!` : ''}</h2>
+            </div>
+            <p className="text-sm text-gray-500 mt-2">
+              <span className="capitalize ">{format(new Date(), "EEEE", { locale: ptBR })}</span>
+              {format(new Date(), "',' dd 'de' MMMM", { locale: ptBR })}
+            </p>
           </div>
-          <p className="text-sm text-gray-500 mt-2">
-            <span className="capitalize ">{format(new Date(), "EEEE", { locale: ptBR })}</span>
-            {format(new Date(), "',' dd 'de' MMMM", { locale: ptBR })}
-          </p>
-        </div>)
+        )
       }
 
       {/* Search component */}
